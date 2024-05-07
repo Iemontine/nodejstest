@@ -1,3 +1,5 @@
+/* Code provided by Daryl Posnett at UC Davis */ 
+
 /**
  * Basic Layout of an Express App JavaScript File:
  * ------------------------------------------------

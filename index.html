@@ -1,0 +1,85 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Palindrome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+        header, main {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        #inputDiv p {
+            color: blue;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        #inputDiv p:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Palindrome Maker</h2>
+</header>
+
+<main>
+    <div id="inputDiv">
+        <input id="word" placeholder="Enter word"> <p onclick="palindromeAJAX()">Submit</p>
+    </div>
+    <div id="outputDiv">
+        <p id="outputGoesHere"></p>
+    </div>
+</main>
+
+<script>
+
+    //`````````````````````````````````````````````````````````````````````````````
+    function palindromeAJAX() {
+        const word = document.getElementById('word').value;
+        const url = `/palindrome?word=${word}`;
+        
+        fetch(url)
+            .then(statusCheck)    // First, check the status of the response
+            .then(processData)    // Then, process the JSON data
+            .catch(handleError);  // Catch any errors that occur during the fetch
+    }
+
+    //`````````````````````````````````````````````````````````````````````````````
+    function statusCheck(res) {
+        if (!res.ok) {
+            throw new Error('Failed to fetch: ' + res.statusText);
+        }
+        return res.json();  // Assuming the server response is in JSON format
+    }
+
+    //`````````````````````````````````````````````````````````````````````````````
+    function processData(data) {
+        if (data.palindrome) {
+            document.getElementById('outputGoesHere').textContent = 'Palindrome: ' + data.palindrome;
+        } else {
+            document.getElementById('outputGoesHere').textContent = 'No palindrome returned.';
+        }
+    }
+
+    //`````````````````````````````````````````````````````````````````````````````
+    function handleError(error) {
+        console.error('Error fetching the palindrome:', error);
+        document.getElementById('outputGoesHere').textContent = 'Error fetching the palindrome.';
+    }
+
+</script>
+
+</body>
+</html>
